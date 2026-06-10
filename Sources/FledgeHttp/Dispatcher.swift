@@ -130,22 +130,13 @@ internal func runRequest(args: [String], methodOverride: HTTPMethod?) throws -> 
     let fullText = String(bytes: cappedBytes, encoding: .utf8)
         ?? String(cappedBytes.map { Character(UnicodeScalar($0)) })
 
-    let truncated: Bool
-    let bodyText: String
-    if fullText.utf8.count > maxBodyBytes {
-        // Cut at a valid UTF-8 character boundary.
-        var cut = fullText.utf8.index(fullText.utf8.startIndex, offsetBy: maxBodyBytes)
-        while !fullText.utf8.distance(from: fullText.utf8.startIndex, to: cut).isMultiple(of: 1) {
-            cut = fullText.utf8.index(before: cut)
-        }
-        // Convert back via String index.
-        let charIdx = cut.samePosition(in: fullText) ?? fullText.endIndex
-        bodyText = String(fullText[..<charIdx])
-        truncated = true
-    } else {
-        bodyText = fullText
-        truncated = false
-    }
+    // Clip to maxBodyBytes on a UTF-8 character boundary. The previous inline
+    // loop guarded on `distance(...).isMultiple(of: 1)`, which is true for
+    // every integer, so it never walked back to a boundary; `samePosition`
+    // then returned nil mid-scalar and the fallback to `endIndex` returned the
+    // FULL body while still flagging `truncated: true`. Use the dedicated
+    // helper, which walks `String.utf8` indices to a real boundary.
+    let (bodyText, truncated) = truncateAtCharBoundary(fullText, maxBytes: maxBodyBytes)
 
     // Build the response envelope.
     let envelope: [String: Any] = [

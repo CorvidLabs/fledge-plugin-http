@@ -21,6 +21,20 @@ let command: String = {
     return commandFromArgv()
 }()
 
+func usageText() -> String {
+    """
+    fledge-http — make an HTTP(S) request behind an SSRF guard.
+
+    Commands:
+      http-request  <url> [method] [headers_json] [body]  Generic request (default GET)
+      http-get      <url> [headers_json]                  Convenience GET
+      http-post     <url> [body] [headers_json]           Convenience POST
+
+    Returns a JSON envelope: { status, ok, content_type, headers, body, truncated, elapsed_ms }.
+    Requests to non-public addresses (loopback, private, link-local, metadata) are refused.
+    """
+}
+
 let result: Result<String, Error>
 switch command {
 case "http-request":
@@ -29,8 +43,16 @@ case "http-get":
     result = Result { try runRequest(args: init_.args, methodOverride: .get) }
 case "http-post":
     result = Result { try runRequest(args: init_.args, methodOverride: .post) }
+case "", "help", "--help", "-h":
+    // No command (binary run without a symlink/command field) or an explicit
+    // help request: print usage rather than treating it as an unknown command.
+    io.output(usageText() + "\n")
+    exit(0)
 default:
-    io.output("Unknown command: \(command)\nExpected: http-request, http-get, http-post\n")
+    io.output(
+        "Unknown command: \(command)\nExpected: http-request, http-get, http-post\n\n"
+            + usageText() + "\n"
+    )
     exit(0)
 }
 
