@@ -1,0 +1,10 @@
+# Build artifacts
+.build/
+.swiftpm/
+dist/
+build/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

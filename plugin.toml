@@ -1,0 +1,63 @@
+[plugin]
+name = "fledge-plugin-http"
+version = "0.1.0"
+description = "Authenticated HTTP/REST client as fledge http, with SSRF guards. Complements fledge-plugin-web."
+author = "0xLeif"
+license = "MIT"
+protocol = "fledge-v1"
+
+[hooks]
+build = "swift build -c release"
+
+[[commands]]
+name = "http-request"
+description = "Make an authenticated HTTP request to a REST API and return a structured JSON envelope: status code, response headers, content-type, body (UTF-8, size-capped with a truncation flag), and elapsed milliseconds. Supports method, custom headers, query params, raw or JSON body, bearer / basic auth. Refuses private / loopback / link-local / cloud-metadata targets (SSRF guard) unless allow_private is set. Authorization values are redacted in echoed errors. Use this for API calls; use fledge-plugin-web for reading documentation pages as text."
+binary = ".build/release/fledge-http"
+args = [
+    { name = "url", type = "string", required = true, description = "Absolute URL (http or https)" },
+    { name = "method", type = "string", required = false, description = "HTTP method: GET (default), POST, PUT, PATCH, DELETE" },
+    { name = "headers", type = "string", required = false, description = "Custom request headers as a JSON object, e.g. {\"Accept\":\"application/json\"}" },
+    { name = "query", type = "string", required = false, description = "Query params as a JSON object, e.g. {\"page\":\"2\"}. Appended to the URL." },
+    { name = "body", type = "string", required = false, description = "Raw request body string. Sent verbatim with the given content-type." },
+    { name = "json", type = "string", required = false, description = "JSON request body string. Parsed and validated, sent with Content-Type application/json. Takes precedence over body." },
+    { name = "bearer", type = "string", required = false, description = "Bearer token. Sent as Authorization: Bearer <token>. Redacted in any echoed error." },
+    { name = "basic_user", type = "string", required = false, description = "Username for HTTP basic auth. Pair with basic_pass." },
+    { name = "basic_pass", type = "string", required = false, description = "Password for HTTP basic auth. Redacted in any echoed error." },
+    { name = "allow_private", type = "string", required = false, description = "Set to 'true' to opt out of the SSRF guard and permit private / loopback / link-local targets. Use only for trusted local services." },
+]
+
+[[commands]]
+name = "http-get"
+description = "Convenience GET request to a REST API. Same structured JSON envelope and SSRF guard as http-request. Supports headers, query params, and bearer / basic auth."
+binary = ".build/release/fledge-http"
+args = [
+    { name = "url", type = "string", required = true, description = "Absolute URL (http or https)" },
+    { name = "headers", type = "string", required = false, description = "Custom request headers as a JSON object" },
+    { name = "query", type = "string", required = false, description = "Query params as a JSON object" },
+    { name = "bearer", type = "string", required = false, description = "Bearer token. Redacted in any echoed error." },
+    { name = "basic_user", type = "string", required = false, description = "Username for HTTP basic auth" },
+    { name = "basic_pass", type = "string", required = false, description = "Password for HTTP basic auth. Redacted in any echoed error." },
+    { name = "allow_private", type = "string", required = false, description = "Set to 'true' to opt out of the SSRF guard." },
+]
+
+[[commands]]
+name = "http-post"
+description = "Convenience POST request to a REST API. Same structured JSON envelope and SSRF guard as http-request. Prefer the json arg for JSON payloads."
+binary = ".build/release/fledge-http"
+args = [
+    { name = "url", type = "string", required = true, description = "Absolute URL (http or https)" },
+    { name = "json", type = "string", required = false, description = "JSON request body string. Sent with Content-Type application/json." },
+    { name = "body", type = "string", required = false, description = "Raw request body string. Used when json is not given." },
+    { name = "headers", type = "string", required = false, description = "Custom request headers as a JSON object" },
+    { name = "query", type = "string", required = false, description = "Query params as a JSON object" },
+    { name = "bearer", type = "string", required = false, description = "Bearer token. Redacted in any echoed error." },
+    { name = "basic_user", type = "string", required = false, description = "Username for HTTP basic auth" },
+    { name = "basic_pass", type = "string", required = false, description = "Password for HTTP basic auth. Redacted in any echoed error." },
+    { name = "allow_private", type = "string", required = false, description = "Set to 'true' to opt out of the SSRF guard." },
+]
+
+[capabilities]
+exec = false
+store = false
+metadata = false
+network = true
