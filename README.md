@@ -1,5 +1,7 @@
 # fledge-plugin-http
 
+![spec coverage](https://img.shields.io/endpoint?url=https://corvidlabs.github.io/fledge-plugin-http/badges/coverage.json)
+
 Authenticated HTTP/REST client as a first-class `fledge` plugin, with SSRF guards.
 Complements `fledge-plugin-web` (which scrapes pages to text); this plugin is for
 calling JSON APIs and returning a structured response envelope.
