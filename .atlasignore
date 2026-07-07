@@ -1,0 +1,4 @@
+# Atlas scope: measure real library source under Sources/ only.
+# Exclude Swift build output and the test target.
+.build/
+Tests/

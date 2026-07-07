@@ -3,7 +3,12 @@ module: http
 version: 1
 status: stable
 files:
-  - Sources/FledgeHttp
+  - Sources/FledgeHttp/main.swift
+  - Sources/FledgeHttp/Protocol.swift
+  - Sources/FledgeHttp/RequestBuilder.swift
+  - Sources/FledgeHttp/SSRFGuard.swift
+  - Sources/FledgeHttp/Dispatcher.swift
+  - Sources/FledgeHttp/Redaction.swift
   - plugin.toml
 depends_on: []
 ---
