@@ -37,23 +37,23 @@ scrapes pages to readable text; this plugin is for talking to APIs.
 
 ## Public API
 
-| Command | Required args | Optional args | Notes |
+| Surface | Required args | Optional args | Notes |
 |---------|---------------|---------------|-------|
-| `http-request` | `url` | `method`, `headers`, `query`, `body`, `json`, `bearer`, `basic_user`, `basic_pass`, `allow_private` | Make an authenticated request; return a structured JSON envelope. Method defaults to GET. |
-| `http-get` | `url` | `headers`, `query`, `bearer`, `basic_user`, `basic_pass`, `allow_private` | Convenience GET. Same envelope and guard as `http-request`. |
-| `http-post` | `url` | `json`, `body`, `headers`, `query`, `bearer`, `basic_user`, `basic_pass`, `allow_private` | Convenience POST. Prefer `json` for JSON payloads. |
+| http-request | url | method, headers, query, body, json, bearer, basic_user, basic_pass, allow_private | Make an authenticated request; return a structured JSON envelope. Method defaults to GET. |
+| http-get | url | headers, query, bearer, basic_user, basic_pass, allow_private | Convenience GET. Same envelope and guard as http-request. |
+| http-post | url | json, body, headers, query, bearer, basic_user, basic_pass, allow_private | Convenience POST. Prefer json for JSON payloads. |
 
 The response envelope is a pretty-printed JSON object:
 
 | Field | Type | Meaning |
 |-------|------|---------|
-| `status` | number | HTTP status code |
-| `ok` | bool | True when status is 2xx |
-| `content_type` | string or null | Response `Content-Type`, if present |
-| `headers` | object | Response headers as a lowercase string map |
-| `body` | string | Response body, UTF-8 lossy, capped at 64 KB |
-| `truncated` | bool | True when the body was clipped at the cap |
-| `elapsed_ms` | number | Wall-clock milliseconds for the request |
+| status | number | HTTP status code |
+| ok | bool | True when status is 2xx |
+| content_type | string or null | Response Content-Type, if present |
+| headers | object | Response headers as a lowercase string map |
+| body | string | Response body, UTF-8 lossy, capped at 64 KB |
+| truncated | bool | True when the body was clipped at the cap |
+| elapsed_ms | number | Wall-clock milliseconds for the request |
 
 ## Invariants
 

@@ -1,0 +1,4 @@
+[registry]
+name = "fledge-plugin-http-trust-wave5"
+
+[specs]
