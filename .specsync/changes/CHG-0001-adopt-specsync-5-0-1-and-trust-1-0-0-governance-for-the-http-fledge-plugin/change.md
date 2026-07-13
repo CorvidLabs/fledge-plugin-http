@@ -1,6 +1,6 @@
 ---
 id: CHG-0001-adopt-specsync-5-0-1-and-trust-1-0-0-governance-for-the-http-fledge-plugin
-state: implementing
+state: accepted
 type: migration
 base_commit: 3336e5ef96728fc469fb5947d272311bfdab82a7
 ---
