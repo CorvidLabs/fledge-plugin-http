@@ -1,0 +1,13 @@
+# fledge.toml — project task definitions
+[project]
+name = "fledge-plugin-http"
+language = "swift"
+
+[tasks]
+build = "swift build -c release"
+test = "swift test"
+manifest = "grep -q 'protocol = \"fledge-v1\"' plugin.toml && grep -q 'network = true' plugin.toml"
+
+[lanes.verify]
+description = "Build, test, and validate the guarded HTTP plugin"
+steps = ["build", "test", "manifest"]

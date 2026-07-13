@@ -1,0 +1,18 @@
+{
+  "approvals": [
+    {
+      "gate": "definition",
+      "actor": "user:0xLeif",
+      "timestamp": 1783954409,
+      "digest": "6128a910cb9d8367e2297f0a68eb879f0f763cc084e5aa05bf4f74d87b956459",
+      "note": "Definition approved after complete semantic-delta and native-evidence audit."
+    },
+    {
+      "gate": "acceptance",
+      "actor": "user:0xLeif",
+      "timestamp": 1783954518,
+      "digest": "bb34353d113de9763d96e51404cb02d49f1a43f5285ba79f033ecbc09561a03b",
+      "note": "Closing approval recorded after successful committed-head native verification with explicit requirement evidence."
+    }
+  ]
+}
