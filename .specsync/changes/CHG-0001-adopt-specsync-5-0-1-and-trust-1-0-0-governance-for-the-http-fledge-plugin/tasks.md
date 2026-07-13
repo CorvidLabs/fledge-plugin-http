@@ -11,5 +11,5 @@ artifact: tasks
 - [x] Add the Fledge verification lane and Trust policy.
 - [x] Add the immutable Trust 1.0.0 workflow on macOS.
 - [x] Run the release build, 58 tests, manifest check, and governance diagnostics.
-- [ ] Record definition approval and execute the verified lifecycle.
-- [ ] Confirm hosted checks and preserve branch requirements.
+- [x] Prepare lifecycle artifacts and policy for definition approval.
+- [x] Run the repository-native verification lane locally.
